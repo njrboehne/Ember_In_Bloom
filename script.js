@@ -40,9 +40,12 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         } else {
             const target = document.querySelector(href);
             if (target) {
-                target.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
+                const navbarHeight = 70; // Height of fixed navbar
+                const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - navbarHeight;
+                
+                window.scrollTo({
+                    top: targetPosition,
+                    behavior: 'smooth'
                 });
             }
         }
@@ -54,26 +57,7 @@ const contactForm = document.querySelector('.contact-form');
 const donationForm = document.querySelector('.donation-form');
 const newsletterForm = document.querySelector('.newsletter-form');
 
-// Contact form submission
-if (contactForm) {
-    contactForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        // Get form data
-        const formData = new FormData(this);
-        const data = Object.fromEntries(formData);
-        
-        // Basic validation
-        if (!data.firstName || !data.lastName || !data.email || !data.message) {
-            alert('Please fill in all required fields.');
-            return;
-        }
-        
-        // Simulate form submission
-        showMessage('Thank you for your message! We will get back to you within 24 hours.', 'success');
-        this.reset();
-    });
-}
+// Contact form submission - handled below with Formspree integration
 
 // Donation form submission
 if (donationForm) {
@@ -347,18 +331,37 @@ function addLoadingState(button) {
 
 // Enhanced form submissions with loading states
 if (contactForm) {
-    contactForm.addEventListener('submit', function(e) {
+    contactForm.addEventListener('submit', async function(e) {
         e.preventDefault();
         
         const submitButton = this.querySelector('button[type="submit"]');
         const resetLoading = addLoadingState(submitButton);
         
-        // Simulate API call
-        setTimeout(() => {
+        // Get form data
+        const formData = new FormData(this);
+        
+        try {
+            // Submit to Formspree
+            const response = await fetch('https://formspree.io/f/mwvpgpne', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            });
+            
+            if (response.ok) {
+                resetLoading();
+                showMessage('Thank you for your message! We will get back to you within 24 hours.', 'success');
+                this.reset();
+            } else {
+                const data = await response.json();
+                throw new Error(data.error || 'Something went wrong. Please try again.');
+            }
+        } catch (error) {
             resetLoading();
-            showMessage('Thank you for your message! We will get back to you within 24 hours.', 'success');
-            this.reset();
-        }, 2000);
+            showMessage(error.message || 'There was an error sending your message. Please try again or contact us directly.', 'error');
+        }
     });
 }
 

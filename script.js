@@ -57,7 +57,7 @@ const contactForm = document.querySelector('.contact-form');
 const donationForm = document.querySelector('.donation-form');
 const newsletterForm = document.querySelector('.newsletter-form');
 
-// Contact form submission - handled below with Formspree integration
+// Contact form submission - handled below with Netlify Forms integration
 
 // Donation form submission
 if (donationForm) {
@@ -341,13 +341,13 @@ if (contactForm) {
         const formData = new FormData(this);
         
         try {
-            // Submit to Formspree
-            const response = await fetch('https://formspree.io/f/mwvpgpne', {
+            // Submit to Netlify Forms
+            const response = await fetch('/', {
                 method: 'POST',
-                body: formData,
                 headers: {
-                    'Accept': 'application/json'
-                }
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: new URLSearchParams(formData).toString()
             });
             
             if (response.ok) {
@@ -355,8 +355,7 @@ if (contactForm) {
                 showMessage('Thank you for your message! We will get back to you within 24 hours.', 'success');
                 this.reset();
             } else {
-                const data = await response.json();
-                throw new Error(data.error || 'Something went wrong. Please try again.');
+                throw new Error('Something went wrong. Please try again.');
             }
         } catch (error) {
             resetLoading();

@@ -431,6 +431,10 @@ p {
     z-index: 2;
 }
 
+.member-photo img.photo-top-align {
+    object-position: top center;
+}
+
 .member-photo:has(img) {
     background: transparent;
 }

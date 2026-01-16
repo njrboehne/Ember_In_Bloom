@@ -435,6 +435,10 @@ p {
     object-position: top center;
 }
 
+.member-photo img.photo-adjust {
+    object-position: 70% 20%;
+}
+
 .member-photo:has(img) {
     background: transparent;
 }
@@ -562,6 +566,7 @@ p {
     grid-template-columns: 1fr 1fr;
     gap: 4rem;
     margin-top: 3rem;
+    align-items: start;
 }
 
 .donate-info h3 {
@@ -599,15 +604,27 @@ p {
 
 .donate-form {
     background: white;
-    padding: 3rem;
+    padding: 0.75rem 2rem;
     border-radius: 20px;
     box-shadow: var(--shadow-light);
+    align-self: start;
 }
 
 .donate-form h3 {
     color: var(--primary-color);
-    margin-bottom: 2rem;
+    margin-bottom: 0.5rem;
     text-align: center;
+    font-size: 1.5rem;
+}
+
+.donate-form a[href*="clover.com"] {
+    transition: all 0.3s ease;
+}
+
+.donate-form a[href*="clover.com"]:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 25px rgba(139, 90, 140, 0.3) !important;
+    background-color: #7a4a7a !important;
 }
 
 /* Forms */

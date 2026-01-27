@@ -627,6 +627,45 @@ p {
     background-color: #7a4a7a !important;
 }
 
+/* Sponsors Section (Inline in Donate Form) */
+.sponsors-inline {
+    margin-top: 2.5rem;
+    padding-top: 2.5rem;
+    border-top: 2px solid #E5E5E5;
+    text-align: center;
+}
+
+.sponsor-logo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.sponsor-logo {
+    max-width: 100%;
+    height: auto;
+    max-height: 120px;
+    width: auto;
+    object-fit: contain;
+}
+
+.sponsor-name {
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+    font-size: 1.4rem;
+}
+
+.sponsor-blurb {
+    color: var(--text-light);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin: 0;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 /* Forms */
 .form-group {
     margin-bottom: 1.5rem;
@@ -1181,6 +1220,23 @@ p {
     .donate-content {
         grid-template-columns: 1fr;
         gap: 2rem;
+    }
+    
+    .sponsors-inline {
+        margin-top: 2rem;
+        padding-top: 2rem;
+    }
+    
+    .sponsor-logo {
+        max-height: 100px;
+    }
+    
+    .sponsor-name {
+        font-size: 1.2rem;
+    }
+    
+    .sponsor-blurb {
+        font-size: 0.9rem;
     }
     
     .impact-stats {

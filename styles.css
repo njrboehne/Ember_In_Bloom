@@ -165,6 +165,61 @@ p {
     transition: 0.3s;
 }
 
+/* Get Involved dropdown */
+.nav-item-has-dropdown {
+    position: relative;
+}
+
+.nav-dropdown-arrow {
+    font-size: 0.65rem;
+    margin-left: 0.25rem;
+    vertical-align: middle;
+    transition: transform 0.3s ease;
+}
+
+.nav-item-has-dropdown:hover .nav-dropdown-arrow {
+    transform: rotate(180deg);
+}
+
+.nav-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(8px);
+    list-style: none;
+    margin: 0;
+    padding: 0.5rem 0;
+    min-width: 200px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: var(--shadow-medium);
+    border: 1px solid rgba(139, 90, 140, 0.1);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.25s ease, visibility 0.25s ease, transform 0.25s ease;
+    z-index: 100;
+}
+
+.nav-item-has-dropdown:hover .nav-dropdown {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(4px);
+}
+
+.nav-dropdown li {
+    margin: 0;
+}
+
+.nav-dropdown .nav-link {
+    display: block;
+    padding: 0.6rem 1.25rem;
+    white-space: nowrap;
+}
+
+.nav-dropdown .nav-link::after {
+    display: none;
+}
+
 /* Hero Section */
 .hero {
     min-height: 100vh;
@@ -520,6 +575,108 @@ p {
 
 .service-cta {
     text-align: center;
+}
+
+/* Sponsors intro copy */
+.sponsors-intro {
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto 1.5rem;
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: var(--text-dark);
+}
+
+/* Sponsors thank you & logo placeholders */
+.sponsors-thank-you {
+    text-align: center;
+    font-size: 1.25rem;
+    color: var(--text-dark);
+    margin-top: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.sponsor-logos {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+    align-items: center;
+    justify-items: center;
+}
+
+.sponsor-logo-slot {
+    width: 100%;
+    max-width: 140px;
+    aspect-ratio: 1;
+    background: var(--bg-accent);
+    border: 2px dashed rgba(139, 90, 140, 0.3);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Replace .sponsor-logo-slot with img or add img inside for real logos */
+.sponsor-logo-slot img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 0.5rem;
+    border-radius: 10px;
+}
+
+/* Sponsorship Tiers */
+.sponsorship-tiers-heading {
+    text-align: center;
+    margin-top: 2rem;
+    margin-bottom: 1.5rem;
+    color: var(--text-dark);
+}
+
+.sponsorship-tiers {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+}
+
+.sponsorship-tier {
+    background: white;
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: var(--shadow-light);
+    text-align: center;
+    transition: transform 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.sponsorship-tier:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-medium);
+    border-color: var(--primary-color);
+}
+
+.sponsorship-tier h4 {
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+}
+
+.sponsorship-tier .tier-amount {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin: 0;
+}
+
+.sponsors-cta {
+    text-align: center;
+}
+
+.sponsors-cta .btn {
+    min-height: 50px;
+    padding: 12px 28px;
+    font-size: 1.1rem;
 }
 
 /* Get Involved Section */
@@ -1186,6 +1343,29 @@ p {
         margin: 1rem 0;
     }
     
+    .nav-item-has-dropdown .nav-dropdown {
+        position: static;
+        transform: none;
+        opacity: 1;
+        visibility: visible;
+        margin-top: 0.5rem;
+        margin-bottom: 0.5rem;
+        padding: 0 0 0 1rem;
+        min-width: 0;
+        box-shadow: none;
+        border: none;
+        border-left: 2px solid var(--primary-color);
+        background: transparent;
+    }
+    
+    .nav-item-has-dropdown:hover .nav-dropdown-arrow {
+        transform: none;
+    }
+    
+    .nav-dropdown .nav-link {
+        padding: 0.4rem 0;
+    }
+    
     .hero-content {
         text-align: center;
     }
@@ -1215,6 +1395,15 @@ p {
     
     .service-items {
         grid-template-columns: 1fr;
+    }
+    
+    .sponsorship-tiers {
+        grid-template-columns: 1fr;
+    }
+    
+    .sponsor-logos {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
     }
     
     .donate-content {

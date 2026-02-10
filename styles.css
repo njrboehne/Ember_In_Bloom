@@ -687,6 +687,10 @@ p {
     margin-top: 3rem;
 }
 
+.involve-card-full {
+    grid-column: 1 / -1;
+}
+
 .involve-card {
     background: white;
     padding: 2.5rem;
@@ -976,6 +980,53 @@ p {
 
 .read-more:hover {
     text-decoration: underline;
+}
+
+/* News & Events - Events section */
+.events-section {
+    margin-top: 3rem;
+}
+
+.events-section h3 {
+    margin-bottom: 1.5rem;
+    color: var(--text-dark);
+}
+
+.event-card {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 1.5rem 2rem;
+    background: white;
+    border-radius: 16px;
+    box-shadow: var(--shadow-light);
+    max-width: 480px;
+}
+
+.event-venue-logo {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+.event-details-inline {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.event-schedule {
+    margin: 0;
+    font-size: 1.15rem;
+    font-weight: 500;
+    color: var(--text-dark);
+}
+
+.event-class-info {
+    margin: 0;
+    font-size: 1rem;
+    color: var(--text-light);
 }
 
 .newsletter-signup {

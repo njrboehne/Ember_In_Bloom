@@ -598,23 +598,29 @@ p {
 
 .sponsor-logos {
     display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    gap: 1.5rem;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 3rem 4rem;
     margin-bottom: 3rem;
     align-items: center;
     justify-items: center;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .sponsor-logo-slot {
     width: 100%;
-    max-width: 140px;
+    max-width: 160px;
     aspect-ratio: 1;
-    background: var(--bg-accent);
-    border: 2px dashed rgba(139, 90, 140, 0.3);
-    border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.sponsor-logo-slot:empty {
+    background: var(--bg-accent);
+    border: 2px dashed rgba(139, 90, 140, 0.3);
+    border-radius: 12px;
 }
 
 /* Replace .sponsor-logo-slot with img or add img inside for real logos */

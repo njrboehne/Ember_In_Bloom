@@ -991,6 +991,9 @@ p {
 /* News & Events - Events section */
 .events-section {
     margin-top: 3rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .events-section h3 {
@@ -1009,6 +1012,20 @@ p {
     max-width: 480px;
 }
 
+.event-card-featured {
+    max-width: 560px;
+    width: 100%;
+    padding: 2rem 2.5rem;
+    box-shadow: var(--shadow-medium);
+    border: 1px solid rgba(139, 90, 140, 0.12);
+    flex-direction: column;
+    text-align: center;
+}
+
+.event-card-featured .event-venue-logo {
+    margin-bottom: 0.5rem;
+}
+
 .event-venue-logo {
     width: 80px;
     height: 80px;
@@ -1016,10 +1033,30 @@ p {
     flex-shrink: 0;
 }
 
+.event-card-featured .event-venue-logo {
+    width: 96px;
+    height: 96px;
+}
+
 .event-details-inline {
     display: flex;
     flex-direction: column;
     gap: 0.35rem;
+}
+
+.event-card-featured .event-details-inline {
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.event-card-featured .event-cta {
+    align-self: center;
+}
+
+.event-title {
+    margin: 0 0 0.15em;
+    font-size: 1.35rem;
+    color: var(--primary-color);
 }
 
 .event-schedule {
@@ -1029,10 +1066,30 @@ p {
     color: var(--text-dark);
 }
 
+.event-date-time {
+    margin: 0;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
 .event-class-info {
     margin: 0;
     font-size: 1rem;
     color: var(--text-light);
+}
+
+.event-cta {
+    margin-top: 1rem;
+    align-self: flex-start;
+}
+
+.event-cta:hover {
+    color: white;
+}
+
+.event-schedule + .event-date-time {
+    margin-top: 0.15rem;
 }
 
 .newsletter-signup {

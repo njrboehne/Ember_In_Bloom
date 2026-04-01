@@ -597,18 +597,22 @@ p {
 }
 
 .sponsor-logos {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 3rem 4rem;
-    margin-bottom: 3rem;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
     align-items: center;
-    justify-items: center;
-    max-width: 500px;
+    gap: clamp(1rem, 4vw, 3rem);
+    margin-bottom: 3rem;
+    max-width: 960px;
     margin-left: auto;
     margin-right: auto;
+    padding: 0 0.75rem;
+    box-sizing: border-box;
 }
 
 .sponsor-logo-slot {
+    flex: 0 1 160px;
+    min-width: 0;
     width: 100%;
     max-width: 160px;
     aspect-ratio: 1;
@@ -999,6 +1003,23 @@ p {
 .events-section h3 {
     margin-bottom: 1.5rem;
     color: var(--text-dark);
+}
+
+.events-cards-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    justify-content: center;
+    align-items: stretch;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.events-cards-row .event-card-featured {
+    flex: 1 1 280px;
+    max-width: 560px;
+    margin: 0;
 }
 
 .event-card {
@@ -1516,8 +1537,13 @@ p {
     }
     
     .sponsor-logos {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 1rem;
+        gap: 0.75rem;
+        padding: 0 0.5rem;
+    }
+
+    .sponsor-logo-slot {
+        flex-basis: 100px;
+        max-width: 100px;
     }
     
     .donate-content {
@@ -1627,6 +1653,16 @@ p {
     
     .footer-logo {
         max-width: 120px;
+    }
+
+    .sponsor-logos {
+        gap: 0.5rem;
+        padding: 0 0.25rem;
+    }
+
+    .sponsor-logo-slot {
+        flex-basis: 88px;
+        max-width: 88px;
     }
 }
 

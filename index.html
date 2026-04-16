@@ -429,8 +429,12 @@
             <div class="newsletter-signup">
                 <h3>Stay Connected</h3>
                 <p>Subscribe to our newsletter for healing tips, event updates, and inspiring stories.</p>
-                <form class="newsletter-form">
-                    <input type="email" placeholder="Enter your email" required>
+                <form class="newsletter-form" name="newsletter" method="POST" data-netlify="true" netlify-honeypot="newsletter-bot-field">
+                    <input type="hidden" name="form-name" value="newsletter">
+                    <p class="hidden">
+                        <label>Don't fill this out if you're human: <input name="newsletter-bot-field" /></label>
+                    </p>
+                    <input type="email" name="email" id="newsletter-email" placeholder="Enter your email" required autocomplete="email">
                     <button type="submit" class="btn btn-primary">Subscribe</button>
                 </form>
             </div>

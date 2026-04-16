@@ -59,44 +59,6 @@ const newsletterForm = document.querySelector('.newsletter-form');
 
 // Contact form submission - handled below with Netlify Forms integration
 
-// Donation form submission
-if (donationForm) {
-    donationForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        const formData = new FormData(this);
-        const data = Object.fromEntries(formData);
-        
-        if (!data.name || !data.email) {
-            alert('Please fill in all required fields.');
-            return;
-        }
-        
-        const amount = data.amount === 'custom' ? 'custom amount' : `$${data.amount}`;
-        const monthly = data.monthly ? ' (monthly)' : '';
-        
-        showMessage(`Thank you for your donation of ${amount}${monthly}! Your support helps us provide free healing programs to survivors.`, 'success');
-        this.reset();
-    });
-}
-
-// Newsletter form submission
-if (newsletterForm) {
-    newsletterForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        const email = this.querySelector('input[type="email"]').value;
-        
-        if (!email) {
-            alert('Please enter your email address.');
-            return;
-        }
-        
-        showMessage('Thank you for subscribing to our newsletter! You will receive healing tips and updates.', 'success');
-        this.reset();
-    });
-}
-
 // Show success/error messages
 function showMessage(message, type) {
     // Remove existing messages
@@ -385,17 +347,34 @@ if (donationForm) {
 }
 
 if (newsletterForm) {
-    newsletterForm.addEventListener('submit', function(e) {
+    newsletterForm.addEventListener('submit', async function(e) {
         e.preventDefault();
-        
+
         const submitButton = this.querySelector('button[type="submit"]');
         const resetLoading = addLoadingState(submitButton);
-        
-        setTimeout(() => {
+
+        const formData = new FormData(this);
+
+        try {
+            const response = await fetch('/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: new URLSearchParams(formData).toString()
+            });
+
+            if (response.ok) {
+                resetLoading();
+                showMessage('Thank you for subscribing to our newsletter! You will receive healing tips and updates.', 'success');
+                this.reset();
+            } else {
+                throw new Error('Something went wrong. Please try again.');
+            }
+        } catch (error) {
             resetLoading();
-            showMessage('Thank you for subscribing to our newsletter! You will receive healing tips and updates.', 'success');
-            this.reset();
-        }, 1500);
+            showMessage(error.message || 'There was an error subscribing. Please try again later.', 'error');
+        }
     });
 }
 

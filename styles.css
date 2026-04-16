@@ -420,9 +420,6 @@ p {
 
 /* About Section */
 .about-content {
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: 4rem;
     margin-top: 3rem;
 }
 
@@ -436,11 +433,61 @@ p {
     margin-top: 0;
 }
 
+.founders-story {
+    overflow: hidden;
+}
+
+.founders-story .founder-photo-inline {
+    float: left;
+    width: 140px;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin: 0.2rem 1.25rem 0.75rem 0;
+    box-shadow: var(--shadow-light);
+}
+
+.team-section-below-founder {
+    margin-top: 2.5rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(139, 90, 140, 0.12);
+}
+
+.team-section-below-founder > h3 {
+    margin-top: 0;
+    text-align: center;
+    color: var(--primary-color);
+}
+
 .team-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 2rem;
     margin-top: 2rem;
+}
+
+/* Meet Our Team: 3×2 layout (must follow .team-grid — same element has both classes) */
+.team-grid.meet-team-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.25rem;
+    margin-top: 1.5rem;
+    align-items: stretch;
+}
+
+.team-grid.meet-team-grid .team-member {
+    min-height: 100%;
+}
+
+@media (max-width: 900px) {
+    .team-grid.meet-team-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 520px) {
+    .team-grid.meet-team-grid {
+        grid-template-columns: 1fr;
+    }
 }
 
 .team-member {
@@ -534,6 +581,14 @@ p {
     text-align: center;
     margin-bottom: 2rem;
     font-size: 1.5rem;
+}
+
+.service-category-subline {
+    display: block;
+    margin-top: 0.35rem;
+    font-size: 0.82em;
+    font-weight: 500;
+    line-height: 1.3;
 }
 
 .service-items {
@@ -733,16 +788,62 @@ p {
 
 /* Donate Section */
 .donate-content {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 4rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2.5rem;
     margin-top: 3rem;
-    align-items: start;
+}
+
+.donate-info {
+    background: white;
+    padding: 2rem 2rem;
+    border-radius: 20px;
+    box-shadow: var(--shadow-light);
+    width: 100%;
+    max-width: 34rem;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
 }
 
 .donate-info h3 {
     color: var(--primary-color);
     margin-bottom: 2rem;
+    font-size: 1.5rem;
+    text-align: center;
+}
+
+.donate-info .donate-funds-heading {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.donate-info ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 auto;
+    max-width: 28rem;
+    text-align: left;
+}
+
+.donate-info ul li {
+    margin-bottom: 1rem;
+    padding-left: 1.5rem;
+    position: relative;
+}
+
+.donate-info ul li .fa-check-circle {
+    position: absolute;
+    left: 0;
+    color: var(--primary-color);
+}
+
+.donate-info .donate-info-closing {
+    margin-top: 2rem;
+    font-style: italic;
+    text-align: center;
 }
 
 .impact-stats {
@@ -775,10 +876,14 @@ p {
 
 .donate-form {
     background: white;
-    padding: 0.75rem 2rem;
+    padding: 2rem 2rem;
     border-radius: 20px;
     box-shadow: var(--shadow-light);
-    align-self: start;
+    width: 100%;
+    max-width: 34rem;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
 }
 
 .donate-form h3 {
@@ -786,6 +891,19 @@ p {
     margin-bottom: 0.5rem;
     text-align: center;
     font-size: 1.5rem;
+}
+
+.donate-form-inner {
+    text-align: center;
+    padding: 0 1.25rem;
+}
+
+.donate-form-intro {
+    font-size: 1rem;
+    color: #666;
+    max-width: 500px;
+    margin: 0 auto 0.75rem;
+    line-height: 1.4;
 }
 
 .donate-form a[href*="clover.com"] {
@@ -796,45 +914,6 @@ p {
     transform: translateY(-2px);
     box-shadow: 0 6px 25px rgba(139, 90, 140, 0.3) !important;
     background-color: #7a4a7a !important;
-}
-
-/* Sponsors Section (Inline in Donate Form) */
-.sponsors-inline {
-    margin-top: 2.5rem;
-    padding-top: 2.5rem;
-    border-top: 2px solid #E5E5E5;
-    text-align: center;
-}
-
-.sponsor-logo-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 1.5rem;
-}
-
-.sponsor-logo {
-    max-width: 100%;
-    height: auto;
-    max-height: 120px;
-    width: auto;
-    object-fit: contain;
-}
-
-.sponsor-name {
-    color: var(--primary-color);
-    margin-bottom: 1rem;
-    font-size: 1.4rem;
-}
-
-.sponsor-blurb {
-    color: var(--text-light);
-    font-size: 0.95rem;
-    line-height: 1.6;
-    margin: 0;
-    max-width: 500px;
-    margin-left: auto;
-    margin-right: auto;
 }
 
 /* Forms */
@@ -1518,9 +1597,10 @@ p {
         justify-content: center;
     }
     
-    .about-content {
-        grid-template-columns: 1fr;
-        gap: 2rem;
+    .founders-story .founder-photo-inline {
+        float: none;
+        display: block;
+        margin: 0 auto 1rem;
     }
     
     .services-grid {
@@ -1547,25 +1627,7 @@ p {
     }
     
     .donate-content {
-        grid-template-columns: 1fr;
         gap: 2rem;
-    }
-    
-    .sponsors-inline {
-        margin-top: 2rem;
-        padding-top: 2rem;
-    }
-    
-    .sponsor-logo {
-        max-height: 100px;
-    }
-    
-    .sponsor-name {
-        font-size: 1.2rem;
-    }
-    
-    .sponsor-blurb {
-        font-size: 0.9rem;
     }
     
     .impact-stats {

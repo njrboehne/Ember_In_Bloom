@@ -1138,6 +1138,11 @@ p {
     height: 96px;
 }
 
+.event-card-featured .event-venue-logo-northstar {
+    width: 120px;
+    height: 120px;
+}
+
 .event-details-inline {
     display: flex;
     flex-direction: column;

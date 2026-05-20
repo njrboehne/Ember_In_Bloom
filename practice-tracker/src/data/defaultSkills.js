@@ -26,6 +26,32 @@ export const DEFAULT_SKILLS = [
     notes: 'Wall holds, kick-ups, balance work — daily practice is key for skill acquisition',
   },
   {
+    id: 'vocals',
+    name: 'Vocal Exercises',
+    icon: '🎤',
+    category: 'voice',
+    color: 'pink',
+    frequency: 'daily',
+    targetSessions: 1,
+    targetMinutes: 10,
+    reminderTime: '08:00',
+    active: true,
+    notes: 'Warmups, scales, breath control, resonance',
+  },
+  {
+    id: 'french',
+    name: 'French',
+    icon: '🇫🇷',
+    category: 'language',
+    color: 'blue',
+    frequency: 'daily',
+    targetSessions: 1,
+    targetMinutes: 15,
+    reminderTime: '08:30',
+    active: true,
+    notes: 'Duolingo, vocab, listening, speaking drills',
+  },
+  {
     id: 'tkd',
     name: 'Taekwondo',
     icon: '🥋',
@@ -112,6 +138,8 @@ export const CATEGORY_LABELS = {
   music: 'Music',
   cardio: 'Cardio',
   teaching: 'Teaching Prep',
+  voice: 'Voice',
+  language: 'Language',
 }
 
 export const COLOR_CLASSES = {
@@ -121,4 +149,6 @@ export const COLOR_CLASSES = {
   yellow: { bg: 'bg-yellow-500/20', text: 'text-yellow-400', border: 'border-yellow-500/40', dot: 'bg-yellow-400' },
   cyan: { bg: 'bg-cyan-500/20', text: 'text-cyan-400', border: 'border-cyan-500/40', dot: 'bg-cyan-400' },
   emerald: { bg: 'bg-emerald-500/20', text: 'text-emerald-400', border: 'border-emerald-500/40', dot: 'bg-emerald-400' },
+  pink: { bg: 'bg-pink-500/20', text: 'text-pink-400', border: 'border-pink-500/40', dot: 'bg-pink-400' },
+  blue: { bg: 'bg-blue-500/20', text: 'text-blue-400', border: 'border-blue-500/40', dot: 'bg-blue-400' },
 }

@@ -4,7 +4,9 @@ import {
   notificationSupported,
   notificationGranted,
 } from '../utils/notifications.js'
-import { saveSettings } from '../utils/storage.js'
+import { saveSettings, saveSkills } from '../utils/storage.js'
+
+const DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 
 export default function SettingsView({ skills, settings, onSkillsChange, onSettingsChange }) {
   const [notifStatus, setNotifStatus] = useState(
@@ -31,12 +33,23 @@ export default function SettingsView({ skills, settings, onSkillsChange, onSetti
     saveSettings(updated)
   }
 
-  function updateSkillReminder(skillId, time) {
-    const updated = skills.map(s => s.id === skillId ? { ...s, reminderTime: time } : s)
+  function updateSkill(skillId, patch) {
+    const updated = skills.map(s => s.id === skillId ? { ...s, ...patch } : s)
     onSkillsChange(updated)
+    saveSkills(updated)
+  }
+
+  function toggleReminderDay(skillId, dow) {
+    const skill = skills.find(s => s.id === skillId)
+    const days = skill.reminderDays ?? [0, 1, 2, 3, 4, 5, 6]
+    const updated = days.includes(dow)
+      ? days.filter(d => d !== dow)
+      : [...days, dow].sort()
+    updateSkill(skillId, { reminderDays: updated })
   }
 
   const notifEnabled = settings.notificationsEnabled && notifStatus === 'granted'
+  const activeSkills = skills.filter(s => s.active)
 
   return (
     <div className="flex flex-col h-full">
@@ -46,24 +59,24 @@ export default function SettingsView({ skills, settings, onSkillsChange, onSetti
 
       <div className="flex-1 overflow-y-auto scroll-area px-5 pb-8 space-y-5">
 
-        {/* Notifications section */}
+        {/* Notifications master toggle */}
         <Section title="Notifications">
-          {notifStatus === 'unsupported' ? (
+          {notifStatus === 'unsupported' && (
             <p className="text-sm text-slate-400 px-4 pb-3">
               Notifications aren't supported in this browser. Try adding the app to your home screen first.
             </p>
-          ) : notifStatus === 'denied' ? (
+          )}
+          {notifStatus === 'denied' && (
             <p className="text-sm text-slate-400 px-4 pb-3">
-              Notification permission was denied. Please enable it in your browser or phone settings, then reload the app.
+              Permission was denied. Enable notifications for this site in your device settings, then reload.
             </p>
-          ) : notifStatus === 'granted' ? (
-            <SettingRow
-              label="Daily reminders"
-              description="Remind me at each skill's scheduled time"
-            >
+          )}
+          {notifStatus === 'granted' && (
+            <SettingRow label="Reminders on" description="Fire notifications at each skill's scheduled time">
               <Toggle value={notifEnabled} onChange={handleToggleNotifications} />
             </SettingRow>
-          ) : (
+          )}
+          {notifStatus === 'supported' && (
             <div className="px-4 pb-3">
               <button
                 onClick={handleEnableNotifications}
@@ -71,11 +84,78 @@ export default function SettingsView({ skills, settings, onSkillsChange, onSetti
               >
                 Enable Notifications
               </button>
-              <p className="text-xs text-slate-500 mt-2 text-center">
-                You'll be asked for permission — tap Allow
-              </p>
+              <p className="text-xs text-slate-500 mt-2 text-center">Tap Allow when prompted</p>
             </div>
           )}
+        </Section>
+
+        {/* Per-skill reminders — always visible */}
+        <Section title="Reminders per skill">
+          {!notifEnabled && (
+            <p className="text-xs text-slate-500 px-4 pt-1 pb-2">
+              Enable notifications above to activate these reminders.
+            </p>
+          )}
+          {activeSkills.map((skill, i) => {
+            const days = skill.reminderDays ?? [0, 1, 2, 3, 4, 5, 6]
+            const enabled = skill.reminderEnabled !== false
+            return (
+              <div
+                key={skill.id}
+                className={`px-4 py-3 border-t border-slate-700/50 ${!notifEnabled ? 'opacity-50' : ''}`}
+              >
+                {/* Skill label + master toggle */}
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-sm font-medium text-white">{skill.icon} {skill.name}</span>
+                  <Toggle
+                    value={enabled}
+                    onChange={val => updateSkill(skill.id, { reminderEnabled: val })}
+                    disabled={!notifEnabled}
+                  />
+                </div>
+
+                {enabled && (
+                  <div className="space-y-2.5">
+                    {/* Time picker */}
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs text-slate-400">Time</span>
+                      <input
+                        type="time"
+                        value={skill.reminderTime || '08:00'}
+                        onChange={e => updateSkill(skill.id, { reminderTime: e.target.value })}
+                        disabled={!notifEnabled}
+                        className="bg-slate-900 text-white rounded-lg px-3 py-1.5 text-sm border border-slate-700 focus:border-violet-500 focus:outline-none disabled:opacity-40"
+                      />
+                    </div>
+
+                    {/* Day-of-week picker */}
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs text-slate-400">Days</span>
+                      <div className="flex gap-1">
+                        {DAYS.map((label, dow) => {
+                          const active = days.includes(dow)
+                          return (
+                            <button
+                              key={dow}
+                              onClick={() => !(!notifEnabled) && toggleReminderDay(skill.id, dow)}
+                              disabled={!notifEnabled}
+                              className={`w-8 h-8 rounded-full text-[11px] font-semibold transition-colors disabled:opacity-40 ${
+                                active
+                                  ? 'bg-violet-600 text-white'
+                                  : 'bg-slate-700 text-slate-400'
+                              }`}
+                            >
+                              {label[0]}
+                            </button>
+                          )
+                        })}
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )
+          })}
         </Section>
 
         {/* Week start */}
@@ -98,29 +178,13 @@ export default function SettingsView({ skills, settings, onSkillsChange, onSetti
           </SettingRow>
         </Section>
 
-        {/* Reminder times */}
-        {notifEnabled && (
-          <Section title="Reminder times">
-            {skills.filter(s => s.active).map(skill => (
-              <SettingRow key={skill.id} label={`${skill.icon} ${skill.name}`}>
-                <input
-                  type="time"
-                  value={skill.reminderTime || '08:00'}
-                  onChange={e => updateSkillReminder(skill.id, e.target.value)}
-                  className="bg-slate-900 text-white rounded-lg px-3 py-1.5 text-sm border border-slate-700 focus:border-violet-500 focus:outline-none"
-                />
-              </SettingRow>
-            ))}
-          </Section>
-        )}
-
         {/* Install prompt */}
         <Section title="Install App">
           <div className="px-4 pb-3 space-y-2">
             <p className="text-sm text-slate-300 font-medium">Add to home screen for the best experience</p>
             <div className="text-sm text-slate-400 space-y-1.5">
               <p><span className="text-slate-300">iOS Safari:</span> Tap Share → "Add to Home Screen"</p>
-              <p><span className="text-slate-300">Android Chrome:</span> Tap ⋮ menu → "Add to Home Screen"</p>
+              <p><span className="text-slate-300">Android Chrome:</span> Tap ⋮ → "Add to Home Screen"</p>
               <p><span className="text-slate-300">Desktop:</span> Click the install icon in the address bar</p>
             </div>
             <p className="text-xs text-slate-500 mt-2">
@@ -129,7 +193,6 @@ export default function SettingsView({ skills, settings, onSkillsChange, onSetti
           </div>
         </Section>
 
-        {/* About */}
         <Section title="About">
           <div className="px-4 pb-3 text-sm text-slate-400 space-y-1">
             <p>Practice Tracker v1.0</p>
@@ -163,13 +226,14 @@ function SettingRow({ label, description, children }) {
   )
 }
 
-function Toggle({ value, onChange }) {
+function Toggle({ value, onChange, disabled = false }) {
   return (
     <button
       role="switch"
       aria-checked={value}
-      onClick={() => onChange(!value)}
-      className={`relative w-12 h-6 rounded-full transition-colors flex-shrink-0 ${value ? 'bg-violet-600' : 'bg-slate-600'}`}
+      onClick={() => !disabled && onChange(!value)}
+      disabled={disabled}
+      className={`relative w-12 h-6 rounded-full transition-colors flex-shrink-0 disabled:opacity-40 ${value ? 'bg-violet-600' : 'bg-slate-600'}`}
     >
       <span
         className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform ${value ? 'translate-x-6' : 'translate-x-0'}`}

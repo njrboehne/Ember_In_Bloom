@@ -18,36 +18,42 @@ export function scheduleReminders(skills, sessions) {
   if (!notificationGranted()) return []
 
   const now = new Date()
+  const todayDow = now.getDay() // 0=Sun … 6=Sat
   const timers = []
 
-  skills.filter(s => s.active && s.reminderTime).forEach(skill => {
-    const [hours, minutes] = skill.reminderTime.split(':').map(Number)
-    const fireAt = new Date()
-    fireAt.setHours(hours, minutes, 0, 0)
+  skills
+    .filter(s => s.active && s.reminderEnabled !== false && s.reminderTime)
+    .filter(s => {
+      const days = s.reminderDays ?? [0, 1, 2, 3, 4, 5, 6]
+      return days.includes(todayDow)
+    })
+    .forEach(skill => {
+      const [hours, minutes] = skill.reminderTime.split(':').map(Number)
+      const fireAt = new Date()
+      fireAt.setHours(hours, minutes, 0, 0)
 
-    // if the time already passed today, skip
-    if (fireAt <= now) return
+      if (fireAt <= now) return
 
-    const delay = fireAt.getTime() - now.getTime()
-    const timerId = setTimeout(() => {
-      if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
-        navigator.serviceWorker.controller.postMessage({
-          type: 'SHOW_NOTIFICATION',
-          title: `Time to practice ${skill.name}`,
-          body: skill.notes || `${skill.targetMinutes} min session`,
-          tag: skill.id,
-        })
-      } else {
-        new Notification(`Time to practice ${skill.name}`, {
-          body: skill.notes || `${skill.targetMinutes} min session`,
-          tag: skill.id,
-          icon: '/icon-192.png',
-        })
-      }
-    }, delay)
+      const delay = fireAt.getTime() - now.getTime()
+      const timerId = setTimeout(() => {
+        if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+          navigator.serviceWorker.controller.postMessage({
+            type: 'SHOW_NOTIFICATION',
+            title: `Time to practice ${skill.name}`,
+            body: skill.notes || `${skill.targetMinutes} min session`,
+            tag: skill.id,
+          })
+        } else {
+          new Notification(`Time to practice ${skill.name}`, {
+            body: skill.notes || `${skill.targetMinutes} min session`,
+            tag: skill.id,
+            icon: '/icon-192.png',
+          })
+        }
+      }, delay)
 
-    timers.push(timerId)
-  })
+      timers.push(timerId)
+    })
 
   return timers
 }

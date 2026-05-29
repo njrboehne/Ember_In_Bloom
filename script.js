@@ -486,9 +486,10 @@ document.addEventListener('DOMContentLoaded', () => {
     
     document.body.insertBefore(skipLink, document.body.firstChild);
     
-    // Add main content landmark
+    // Add main content landmark on homepage
+    const existingMain = document.getElementById('main-content');
     const hero = document.querySelector('.hero');
-    if (hero) {
+    if (hero && !existingMain) {
         hero.id = 'main-content';
         hero.setAttribute('role', 'main');
     }

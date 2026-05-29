@@ -155,7 +155,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // FAQ Accordion functionality
 document.addEventListener('DOMContentLoaded', () => {
-    const faqItems = document.querySelectorAll('.faq-item');
+    const faqItems = document.querySelectorAll('.faq-list .faq-item');
     
     faqItems.forEach(item => {
         const question = item.querySelector('h4');
@@ -198,6 +198,76 @@ document.addEventListener('DOMContentLoaded', () => {
             answer.style.transition = 'max-height 0.3s ease-out, padding-top 0.3s ease-out';
         }
     });
+});
+
+// Science section accordion
+document.addEventListener('DOMContentLoaded', () => {
+    const scienceItems = document.querySelectorAll('.science-item');
+
+    function openScienceItem(item, scrollIntoView = false) {
+        scienceItems.forEach(otherItem => {
+            if (otherItem !== item) {
+                otherItem.classList.remove('open');
+                const heading = otherItem.querySelector('.science-item-heading');
+                if (heading) {
+                    heading.setAttribute('aria-expanded', 'false');
+                }
+            }
+        });
+
+        item.classList.add('open');
+        const heading = item.querySelector('.science-item-heading');
+        if (heading) {
+            heading.setAttribute('aria-expanded', 'true');
+        }
+
+        if (scrollIntoView) {
+            const navbarHeight = 70;
+            const targetPosition = item.getBoundingClientRect().top + window.pageYOffset - navbarHeight - 16;
+            window.scrollTo({ top: targetPosition, behavior: 'smooth' });
+        }
+    }
+
+    scienceItems.forEach(item => {
+        const heading = item.querySelector('.science-item-heading');
+        if (!heading) return;
+
+        const toggleItem = () => {
+            const isOpen = item.classList.contains('open');
+            if (isOpen) {
+                item.classList.remove('open');
+                heading.setAttribute('aria-expanded', 'false');
+            } else {
+                openScienceItem(item);
+            }
+        };
+
+        heading.addEventListener('click', toggleItem);
+        heading.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                toggleItem();
+            }
+        });
+    });
+
+    document.querySelectorAll('.science-jump-nav a').forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const targetId = link.getAttribute('href');
+            const targetItem = document.querySelector(targetId);
+            if (targetItem) {
+                openScienceItem(targetItem, true);
+            }
+        });
+    });
+
+    if (window.location.hash.startsWith('#science')) {
+        const hashTarget = document.querySelector(window.location.hash);
+        if (hashTarget && hashTarget.classList.contains('science-item')) {
+            openScienceItem(hashTarget, true);
+        }
+    }
 });
 
 // Stats counter animation

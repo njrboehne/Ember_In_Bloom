@@ -515,6 +515,55 @@ function lazyLoadImages() {
 // Initialize lazy loading when DOM is ready
 document.addEventListener('DOMContentLoaded', lazyLoadImages);
 
+// Green Lotus "A Space to Let Go" — monthly Mindbody registration links.
+// Add new months to this list as links become available; the site picks the next upcoming date automatically.
+const GREEN_LOTUS_EVENTS = [
+    {
+        date: '2026-08-02',
+        label: 'August 2, 2026',
+        url: 'https://clients.mindbodyonline.com/classic/ws?studioid=3142&stype=-7&sTG=10&sView=day&sLoc=2&sTrn=100000804&date=08/02/26'
+    },
+    {
+        date: '2026-09-06',
+        label: 'September 6, 2026',
+        url: 'https://clients.mindbodyonline.com/classic/ws?studioid=3142&stype=-7&sTG=10&sView=day&sLoc=2&sTrn=100000804&date=09/06/26'
+    },
+    {
+        date: '2026-10-04',
+        label: 'October 4, 2026',
+        url: 'https://clients.mindbodyonline.com/classic/ws?studioid=3142&stype=-7&sTG=10&sView=day&sLoc=2&sTrn=100000804&date=10/04/26'
+    },
+    {
+        date: '2026-11-01',
+        label: 'November 1, 2026',
+        url: 'https://clients.mindbodyonline.com/classic/ws?studioid=3142&stype=-7&sTG=10&sView=day&sLoc=2&sTrn=100000804&date=11/01/26'
+    },
+    {
+        date: '2026-12-06',
+        label: 'December 6, 2026',
+        url: 'https://clients.mindbodyonline.com/classic/ws?studioid=3142&stype=-7&sTG=10&sView=day&sLoc=2&sTrn=100000804&date=12/06/26'
+    }
+];
+
+function initGreenLotusEvent() {
+    const dateEl = document.getElementById('green-lotus-next-date');
+    const linkEl = document.getElementById('green-lotus-register-link');
+    if (!dateEl || !linkEl || GREEN_LOTUS_EVENTS.length === 0) return;
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const upcoming = GREEN_LOTUS_EVENTS.find((event) => {
+        const eventDate = new Date(`${event.date}T00:00:00`);
+        return eventDate >= today;
+    }) || GREEN_LOTUS_EVENTS[GREEN_LOTUS_EVENTS.length - 1];
+
+    dateEl.textContent = `Next: ${upcoming.label}`;
+    linkEl.href = upcoming.url;
+}
+
+document.addEventListener('DOMContentLoaded', initGreenLotusEvent);
+
 // Console welcome message
 console.log('%c🌸 Ember in Bloom Foundation', 'color: #8B5A8C; font-size: 20px; font-weight: bold;');
 console.log('%cReclaiming herself, one breath at a time.', 'color: #F4A6A6; font-size: 14px; font-style: italic;');

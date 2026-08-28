@@ -1424,6 +1424,13 @@ p {
     height: 120px;
 }
 
+.event-card-featured .event-venue-logo-wide {
+    width: 100%;
+    max-width: 320px;
+    height: auto;
+    aspect-ratio: auto;
+}
+
 .event-details-inline {
     display: flex;
     flex-direction: column;

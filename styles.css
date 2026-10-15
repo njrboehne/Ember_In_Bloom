@@ -437,14 +437,30 @@ p {
     overflow: hidden;
 }
 
-.founders-story .founder-photo-inline {
+.founders-story .founder-photo-block {
     float: left;
+    display: block;
+    width: 140px;
+    margin: 0.2rem 1.25rem 0.75rem 0;
+    text-align: center;
+}
+
+.founders-story .founder-photo-inline {
+    display: block;
     width: 140px;
     height: 140px;
     object-fit: cover;
     border-radius: 50%;
-    margin: 0.2rem 1.25rem 0.75rem 0;
     box-shadow: var(--shadow-light);
+}
+
+.founders-story .founder-name {
+    display: block;
+    margin-top: 0.5rem;
+    color: var(--primary-color);
+    font-family: 'Playfair Display', serif;
+    font-weight: 600;
+    line-height: 1.2;
 }
 
 .team-section-below-founder {
@@ -1890,9 +1906,8 @@ p {
         justify-content: center;
     }
     
-    .founders-story .founder-photo-inline {
+    .founders-story .founder-photo-block {
         float: none;
-        display: block;
         margin: 0 auto 1rem;
     }
     
